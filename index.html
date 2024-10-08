@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Image Shuffle Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://use.typekit.net/hid5agy.css">
+</head>
+<body>
+    <h1>Repetition</h1>
+
+    <!-- Shuffle button for shuffling the images -->
+    <button id="shuffle-btn">Shuffle Images</button>
+
+    <!-- Game container -->
+    <div id="game-container">
+        <canvas id="game-canvas" width="1040" height="520"></canvas>
+    </div>
+
+    <!-- Modal to show when a match occurs -->
+
+    <div id="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">×</span>
+            <p>Energy moves in waves. Waves move in patterns. Patterns move in rhythms. A human being is just that—energy, waves, patterns, rhythms. Nothing more. Nothing less. A dance.</p>
+            <p>- Gabrielle Roth</p>
+        </div>
+    </div>
+
+    <!-- Game script -->
+    <script src="script.js"></script>
+</body>
+</html>
