@@ -111,7 +111,10 @@ const checkForMatch = () => {
             if (
                 grid[row][col] !== null &&
                 grid[row][col] === grid[row][col + 1] &&
-                grid[row][col] === grid[row][col + 2]
+                grid[row][col] === grid[row][col + 2] &&
+                !isPieceMatched(row, col) &&
+                !isPieceMatched(row, col + 1) &&
+                !isPieceMatched(row, col + 2)
             ) {
                 markAsMatched([
                     [row, col],
@@ -129,7 +132,10 @@ const checkForMatch = () => {
             if (
                 grid[row][col] !== null &&
                 grid[row][col] === grid[row + 1][col] &&
-                grid[row][col] === grid[row + 2][col]
+                grid[row][col] === grid[row + 2][col] &&
+                !isPieceMatched(row, col) &&
+                !isPieceMatched(row + 1, col) &&
+                !isPieceMatched(row + 2, col)
             ) {
                 markAsMatched([
                     [row, col],
@@ -150,16 +156,17 @@ const checkForMatch = () => {
     return matchingBlocks.length > 0; // Return true if matches were found
 };
 
+// Utility function to check if a piece is already matched
+const isPieceMatched = (row, col) => {
+    const piece = pieces.find(p => p.x === col && p.y === row);
+    return piece ? piece.isMatched : false;
+};
 
-
-
-
-// Mark blocks as matched
 // Mark blocks as matched
 const markAsMatched = (matches) => {
     matches.forEach(([x, y]) => {
         pieces.forEach(piece => {
-            if (piece.x === y && piece.y === x) { // Check coordinates correctly
+            if (piece.x === y && piece.y === x && !piece.isMatched) { // Check coordinates and if not already matched
                 piece.isMatched = true;
                 matchingBlocks.push(piece);
                 console.log(`Matched piece: (${piece.x}, ${piece.y})`); // Log matched pieces
@@ -167,9 +174,6 @@ const markAsMatched = (matches) => {
         });
     });
 };
-
-
-
 
 // Handle piece selection and movement
 const handleClick = (event) => {
@@ -191,28 +195,55 @@ const handleClick = (event) => {
 };
 
 const handleKeyboardMovement = (event) => {
-    console.log(`Key pressed: ${event.key}`); // Debugging line
     if (currentPieceIndex !== null) {
         const currentPiece = pieces[currentPieceIndex];
+        const { x, y } = currentPiece; // Current coordinates of the piece
+        let newX = x;
+        let newY = y;
+
         switch (event.key) {
             case 'ArrowLeft':
-                if (currentPiece.x > 0) currentPiece.x--;
+                if (x > 0 && grid[y][x - 1] === null) {
+                    newX = x - 1;
+                }
                 break;
             case 'ArrowRight':
-                if (currentPiece.x < cols - 1) currentPiece.x++;
-                break;
-            case 'ArrowDown':
-                if (currentPiece.y < rows - 1) currentPiece.y++;
+                if (x < cols - 1 && grid[y][x + 1] === null) {
+                    newX = x + 1;
+                }
                 break;
             case 'ArrowUp':
-                if (currentPiece.y > 0) currentPiece.y--;
+                if (y > 0 && grid[y - 1][x] === null) {
+                    newY = y - 1;
+                }
+                break;
+            case 'ArrowDown':
+                if (y < rows - 1 && grid[y + 1][x] === null) {
+                    newY = y + 1;
+                }
                 break;
         }
-        updateGrid();
-        checkForMatch(); // Check for matches after moving
-        draw();
+
+        // If the piece moves, update the grid and piece position
+        if (newX !== x || newY !== y) {
+            // Clear current position in the grid
+            grid[y][x] = null;
+
+            // Update piece coordinates
+            currentPiece.x = newX;
+            currentPiece.y = newY;
+
+            // Mark new position in the grid
+            grid[newY][newX] = currentPiece.imageIndex;
+
+            // Redraw the grid and check for matches after movement
+            updateGrid();
+            checkForMatch();
+            draw();
+        }
     }
 };
+
 
 // Open and close modal
 const openModal = () => {
@@ -235,19 +266,13 @@ const closeModal = () => {
 
 // Shuffle pieces
 const shufflePieces = () => {
-    pieces.forEach(piece => {
-        let x, y;
-        do {
-            x = Math.floor(Math.random() * cols);
-            y = Math.floor(Math.random() * rows);
-        } while (grid[y][x] !== null);
-
-        grid[piece.y][piece.x] = null;
-        piece.x = x;
-        piece.y = y;
-        grid[y][x] = piece.imageIndex;
-    });
-    draw();
+    // Reset the grid and pieces
+    pieces.forEach(piece => piece.isMatched = false); // Reset all matched status
+    initializePieces(); // Reinitialize the pieces
+    updateGrid(); // Update the grid to reflect the new positions
+    draw(); // Redraw the canvas with the updated positions
+    closeModal(); // Close modal if it was open
+    console.log('Game reset and shuffled.');
 };
 
 // Event listeners
