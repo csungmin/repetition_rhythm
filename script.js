@@ -332,6 +332,12 @@ const closeModal = () => {
     }
 };
 
+document.addEventListener('keydown', (event) => {
+    if (event.code === 'Space') { // Check if spacebar was pressed
+        closeModal(); // Close the modal
+    }
+});
+
 // Shuffle pieces
 const shufflePieces = () => {
     // Reset the grid and pieces
