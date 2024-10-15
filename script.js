@@ -4,17 +4,17 @@ const gridSize = 130;
 const rows = 4;
 const cols = 8;
 const images = [
-    'images/IMG_9254.jpg',
-    'images/IMG_9259.jpg',
-    'images/IMG_9292.jpg',
-    'images/IMG_9509.jpg',
-    'images/IMG_9294.jpg',
-    'images/IMG_9432.jpg',
-    'images/IMG_9599.jpg',
-    'images/IMG_9572.jpg',
-    'images/IMG_9378.jpg',
-    'images/IMG_9382.jpg',
-    'images/IMG_9381.jpg'
+    'images/IMG_9254.png',
+    'images/IMG_9259.png',
+    'images/IMG_9292.png',
+    'images/IMG_9509.png',
+    'images/IMG_9294.png',
+    'images/IMG_9432.png',
+    'images/IMG_9599.png',
+    'images/IMG_9572.png',
+    'images/IMG_9378.png',
+    'images/IMG_9382.png',
+    'images/IMG_9381.png'
 ];
 
 const quotes = [
