@@ -18,9 +18,9 @@ const images = [
 ];
 
 const quotes = [
-    "“Energy moves in waves. Waves move in patterns. Patterns move in rhythms. A human being is just that energy, waves, patterns, rhythms. Nothing more. Nothing less. A dance.”",
+    "Energy moves in waves. Waves move in patterns. Patterns move in rhythms. A human being is just that energy, waves, patterns, rhythms. Nothing more. Nothing less. A dance.",
     "Rhythm in art is the visual or auditory pattern created by repeated shapes, elements, colors, sounds, and movements.",
-    "Repetition... can also help create texture and bring the project to life",
+    "Repetition can also help create texture and bring the project to life",
     "Repetition helps them know exactly what to expect, creating a sense of comfort",
     "Repetition is also an excellent way to highlight specific elements",
     "Repetition lets me be happier with everyday, ordinary things in life and lets me appreciate the extraordinary more when it does happen",
@@ -31,26 +31,26 @@ const quotes = [
     "Repetition is a key technique used to create rhythm in art.",
     "Rhythm is an important concept in art. It is used to create a sense of movement, energy, and flow in works of art.",
     "Repetition lets me be happier with everyday, ordinary things in life and lets me appreciate the extraordinary more when it does happen.",
-    "“Repetition may not entertain, but it teaches.”",
+    "Repetition may not entertain, but it teaches.",
 ];
 
 const authors = [
-    " Gabrielle Roth",
-    " What is Rhythm in Art — Principles, Types & Techniques",
-    " Repetition in Graphic Design: Understanding What it Means and How to Use It",
-    " Repetition in Graphic Design: Understanding What it Means and How to Use It",
-    " Repetition in Graphic Design: Understanding What it Means and How to Use It",
-    " Finding Joy in Repetition",
-    " The Importance of Rhythm in Everyday Life",
-    " What is Rhythm in Art — Principles, Types & Techniques",
-    " The Importance of Rhythm in Everyday Life",
-    " The Importance of Rhythm in Everyday Life",
-    " The Importance of Rhythm in Everyday Life",
-    " What is Rhythm in Art — Principles, Types & Techniques",
-    " What is Rhythm in Art — Principles, Types & Techniques",
-    " Finding Joy in Repetition",
-    " Frederic Bastiat",
+    "Gabrielle Roth",
+    "What is Rhythm in Art — Principles, Types & Techniques",
+    "Repetition in Graphic Design: Understanding What it Means and How to Use It",
+    "Repetition in Graphic Design: Understanding What it Means and How to Use It",
+    "Repetition in Graphic Design: Understanding What it Means and How to Use It",
+    "Finding Joy in Repetition",
+    "The Importance of Rhythm in Everyday Life",
+    "What is Rhythm in Art — Principles, Types & Techniques",
+    "The Importance of Rhythm in Everyday Life",
+    "The Importance of Rhythm in Everyday Life",
+    "The Importance of Rhythm in Everyday Life",
+    "What is Rhythm in Art — Principles, Types & Techniques",
+    "What is Rhythm in Art — Principles, Types & Techniques",
+    "Frederic Bastiatn",
 ];
+
 
 // Initialize variables
 let pieces = [];
@@ -308,10 +308,9 @@ const handleKeyboardMovement = (event) => {
 const openModal = () => {
     const modal = document.getElementById("modal");
     if (modal) {
-        // Select a random index
-        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const randomIndex = Math.floor(Math.random() * quotes.length); // Select a random index based on quotes length
 
-        // Update modal content with a random quote and its author
+        // Update modal content with the quote and corresponding author
         modal.querySelector("p#quote").innerText = quotes[randomIndex];
         modal.querySelector("p#author").innerText = `- ${authors[randomIndex]}`;
 
@@ -321,7 +320,6 @@ const openModal = () => {
         console.error('Modal element not found!'); // Log error if not found
     }
 };
-
 
 
 const closeModal = () => {
