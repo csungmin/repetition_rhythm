@@ -10,23 +10,24 @@
 <body>
     <h1>Repetition, Rhythm, Repetition, Rhythm, Repetition</h1>
 
-    <!-- Shuffle button for shuffling the images -->
-    <button id="shuffle-btn">Shuffle Images</button>
-
     <!-- Game container -->
     <div id="game-container">
         <canvas id="game-canvas" width="1040" height="520"></canvas>
     </div>
 
-    <!-- Modal to show when a match occurs -->
 
+    <!-- Shuffle button for shuffling the images -->
+    <button id="shuffle-btn">Shuffle Images</button>
+
+    <!-- Modal to show when a match occurs -->
     <div id="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal()">×</span>
-            <p>Energy moves in waves. Waves move in patterns. Patterns move in rhythms. A human being is just that—energy, waves, patterns, rhythms. Nothing more. Nothing less. A dance.</p>
-            <p>- Gabrielle Roth</p>
+            <p id="quote"></p>
+            <p id="author"></p>
         </div>
     </div>
+    
 
     <!-- Game script -->
     <script src="script.js"></script>

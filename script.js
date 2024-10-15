@@ -17,6 +17,41 @@ const images = [
     'images/IMG_9381.jpg'
 ];
 
+const quotes = [
+    "“Energy moves in waves. Waves move in patterns. Patterns move in rhythms. A human being is just that energy, waves, patterns, rhythms. Nothing more. Nothing less. A dance.”",
+    "Rhythm in art is the visual or auditory pattern created by repeated shapes, elements, colors, sounds, and movements.",
+    "Repetition... can also help create texture and bring the project to life",
+    "Repetition helps them know exactly what to expect, creating a sense of comfort",
+    "Repetition is also an excellent way to highlight specific elements",
+    "Repetition lets me be happier with everyday, ordinary things in life and lets me appreciate the extraordinary more when it does happen",
+    "Rhythm is essential to dance, poetry, and speech",
+    "By creating repetition with both composition and content, artists can successfully create visual rhythms for viewers to appreciate",
+    "Life is full of rhythms... We feel deeply the cycles of sun and moon, planting harvest",
+    "The human body is replete with rhythmical processes, such as respiration, heartbeat, circadian cycles, and menstrual cycles.",
+    "Repetition is a key technique used to create rhythm in art.",
+    "Rhythm is an important concept in art. It is used to create a sense of movement, energy, and flow in works of art.",
+    "Repetition lets me be happier with everyday, ordinary things in life and lets me appreciate the extraordinary more when it does happen.",
+    "“Repetition may not entertain, but it teaches.”",
+];
+
+const authors = [
+    " Gabrielle Roth",
+    " What is Rhythm in Art — Principles, Types & Techniques",
+    " Repetition in Graphic Design: Understanding What it Means and How to Use It",
+    " Repetition in Graphic Design: Understanding What it Means and How to Use It",
+    " Repetition in Graphic Design: Understanding What it Means and How to Use It",
+    " Finding Joy in Repetition",
+    " The Importance of Rhythm in Everyday Life",
+    " What is Rhythm in Art — Principles, Types & Techniques",
+    " The Importance of Rhythm in Everyday Life",
+    " The Importance of Rhythm in Everyday Life",
+    " The Importance of Rhythm in Everyday Life",
+    " What is Rhythm in Art — Principles, Types & Techniques",
+    " What is Rhythm in Art — Principles, Types & Techniques",
+    " Finding Joy in Repetition",
+    " Frederic Bastiat",
+];
+
 // Initialize variables
 let pieces = [];
 let currentPieceIndex = null;
@@ -77,7 +112,14 @@ const updateGrid = () => {
 // Draw game board and pieces
 const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw all the images
     pieces.forEach((piece, index) => {
+        // Set different styles for matched pieces
+        if (piece.isMatched) {
+            ctx.globalAlpha = 0.4; // Make matched pieces semi-transparent
+        }
+
         ctx.drawImage(
             loadedImages[piece.imageIndex],
             piece.x * gridSize,
@@ -86,19 +128,36 @@ const draw = () => {
             gridSize
         );
 
-        // Highlight selected piece
-        if (index === currentPieceIndex) {
-            ctx.strokeStyle = 'black';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(
-                piece.x * gridSize,
-                piece.y * gridSize,
-                gridSize,
-                gridSize
-            );
-        }
+        // Reset styles after drawing
+        ctx.globalAlpha = 1.0;
     });
+
+    // If there's a selected piece, draw it on top and highlight it
+    if (currentPieceIndex !== null) {
+        const selectedPiece = pieces[currentPieceIndex];
+        
+        // Draw the selected image on top
+        ctx.drawImage(
+            loadedImages[selectedPiece.imageIndex],
+            selectedPiece.x * gridSize,
+            selectedPiece.y * gridSize,
+            gridSize,
+            gridSize
+        );
+
+        // Then, highlight it with a border
+        ctx.strokeStyle = '#472e15';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(
+            selectedPiece.x * gridSize,
+            selectedPiece.y * gridSize,
+            gridSize,
+            gridSize
+        );
+    }
 };
+
+
 
 // Check for matches
 const checkForMatch = () => {
@@ -107,7 +166,7 @@ const checkForMatch = () => {
 
     // Check for horizontal matches across all rows
     for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols - 2; col++) { // Ensure we don't go out of bounds
+        for (let col = 0; col < cols - 2; col++) { 
             if (
                 grid[row][col] !== null &&
                 grid[row][col] === grid[row][col + 1] &&
@@ -128,7 +187,7 @@ const checkForMatch = () => {
 
     // Check for vertical matches across all columns
     for (let col = 0; col < cols; col++) {
-        for (let row = 0; row < rows - 2; row++) { // Ensure we don't go out of bounds
+        for (let row = 0; row < rows - 2; row++) { 
             if (
                 grid[row][col] !== null &&
                 grid[row][col] === grid[row + 1][col] &&
@@ -166,10 +225,10 @@ const isPieceMatched = (row, col) => {
 const markAsMatched = (matches) => {
     matches.forEach(([x, y]) => {
         pieces.forEach(piece => {
-            if (piece.x === y && piece.y === x && !piece.isMatched) { // Check coordinates and if not already matched
+            if (piece.x === y && piece.y === x && !piece.isMatched) {
                 piece.isMatched = true;
                 matchingBlocks.push(piece);
-                console.log(`Matched piece: (${piece.x}, ${piece.y})`); // Log matched pieces
+                console.log(`Matched piece: (${piece.x}, ${piece.y})`); 
             }
         });
     });
@@ -249,12 +308,21 @@ const handleKeyboardMovement = (event) => {
 const openModal = () => {
     const modal = document.getElementById("modal");
     if (modal) {
+        // Select a random index
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+
+        // Update modal content with a random quote and its author
+        modal.querySelector("p#quote").innerText = quotes[randomIndex];
+        modal.querySelector("p#author").innerText = `- ${authors[randomIndex]}`;
+
         modal.style.display = "block"; // Show modal
-        console.log('Modal opened'); // Debugging line
+        console.log('Modal opened with random quote'); // Debugging line
     } else {
         console.error('Modal element not found!'); // Log error if not found
     }
 };
+
+
 
 const closeModal = () => {
     const modal = document.getElementById("modal");
@@ -268,10 +336,10 @@ const closeModal = () => {
 const shufflePieces = () => {
     // Reset the grid and pieces
     pieces.forEach(piece => piece.isMatched = false); // Reset all matched status
-    initializePieces(); // Reinitialize the pieces
-    updateGrid(); // Update the grid to reflect the new positions
-    draw(); // Redraw the canvas with the updated positions
-    closeModal(); // Close modal if it was open
+    initializePieces();
+    updateGrid();
+    draw();
+    closeModal();
     console.log('Game reset and shuffled.');
 };
 
